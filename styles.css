@@ -15,6 +15,8 @@ body {
     overflow: hidden;
     background-size: 400% 400%;
     animation: backgroundShift 15s ease infinite;
+    min-width: 280px;
+    overflow-x: hidden;
 }
 
 .container {
@@ -26,6 +28,9 @@ body {
     transform-style: preserve-3d;
     animation: containerFloat 6s ease-in-out infinite;
     box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 @keyframes containerFloat {
@@ -111,6 +116,10 @@ h1 {
     transform-style: preserve-3d;
     transform: rotateX(20deg);
     transition: transform 0.5s ease;
+    max-width: 100%;
+    aspect-ratio: 1;
+    padding: 15px;
+    gap: 10px;
 }
 
 .game-board:hover {
@@ -120,18 +129,20 @@ h1 {
 .cell {
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.3);
-    height: 120px;
+    height: var(--cell-size-desktop);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3.5rem;
+    font-size: var(--font-size-cell);
     font-weight: bold;
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
     transform-style: preserve-3d;
     position: relative;
+    width: 100%;
+    aspect-ratio: 1;
 }
 
 .cell:empty:hover {
@@ -192,6 +203,8 @@ button {
     min-width: 150px;
     margin: 10px;
     z-index: 2;
+    min-height: 44px;
+    touch-action: manipulation;
 }
 
 button:hover {
@@ -294,5 +307,208 @@ button::after {
     to {
         transform: scale(4);
         opacity: 0;
+    }
+}
+
+/* Base responsive settings */
+:root {
+    --cell-size-desktop: 120px;
+    --cell-size-tablet: 100px;
+    --cell-size-mobile: 80px;
+    --font-size-title: 3.5rem;
+    --font-size-status: 1.4rem;
+    --font-size-cell: 3.5rem;
+}
+
+/* Responsive game board */
+.game-board {
+    max-width: 100%;
+    aspect-ratio: 1;
+    padding: 15px;
+    gap: 10px;
+}
+
+/* Media Queries */
+
+/* Large tablets and small laptops */
+@media screen and (max-width: 1024px) {
+    :root {
+        --cell-size-desktop: 100px;
+        --font-size-title: 3rem;
+        --font-size-status: 1.2rem;
+        --font-size-cell: 3rem;
+    }
+
+    .container {
+        padding: 1.5rem;
+    }
+}
+
+/* Tablets */
+@media screen and (max-width: 768px) {
+    :root {
+        --cell-size-desktop: var(--cell-size-tablet);
+        --font-size-title: 2.5rem;
+        --font-size-cell: 2.5rem;
+    }
+
+    .score-board {
+        max-width: 90%;
+    }
+
+    .controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    button {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+}
+
+/* Mobile devices */
+@media screen and (max-width: 480px) {
+    :root {
+        --cell-size-desktop: var(--cell-size-mobile);
+        --font-size-title: 2rem;
+        --font-size-status: 1rem;
+        --font-size-cell: 2rem;
+    }
+
+    .container {
+        width: 95%;
+        padding: 1rem 0.5rem;
+    }
+
+    h1 {
+        font-size: var(--font-size-title);
+        margin-bottom: 15px;
+    }
+
+    .status {
+        font-size: var(--font-size-status);
+        padding: 10px;
+        margin: 15px auto;
+    }
+
+    .score-board {
+        padding: 10px;
+        margin: 15px auto;
+    }
+
+    .player-score {
+        padding: 10px 15px;
+    }
+
+    .player-score h3 {
+        font-size: 1rem;
+    }
+
+    .player-score .score {
+        font-size: 1.5rem;
+    }
+
+    .controls {
+        gap: 10px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 120px;
+    }
+
+    /* Adjust 3D effects for better mobile performance */
+    .game-board {
+        transform: rotateX(15deg);
+    }
+
+    .game-board:hover {
+        transform: rotateX(5deg);
+    }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 320px) {
+    :root {
+        --cell-size-desktop: 60px;
+        --font-size-title: 1.8rem;
+        --font-size-status: 0.9rem;
+        --font-size-cell: 1.8rem;
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+/* Landscape mode */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .game-board {
+        margin: 15px auto;
+    }
+
+    .score-board {
+        margin: 10px auto;
+    }
+
+    .controls {
+        margin-top: 10px;
+    }
+}
+
+/* High-DPI screens */
+@media screen and (-webkit-min-device-pixel-ratio: 2), 
+       screen and (min-resolution: 192dpi) {
+    .container {
+        backdrop-filter: blur(5px);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+    .cell:hover {
+        transform: none;
+    }
+
+    .game-board {
+        transform: rotateX(10deg);
+    }
+
+    .game-board:hover {
+        transform: rotateX(10deg);
+    }
+}
+
+/* Prevent text selection */
+.cell, button, h1, .status {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Optimize animations for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .container,
+    .cell,
+    button,
+    .confetti {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 } 
